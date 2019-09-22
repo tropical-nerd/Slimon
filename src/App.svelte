@@ -33,18 +33,18 @@
 		for (let sequenceIndex = 0; sequenceIndex < game.round; sequenceIndex++) {
 			sequence[sequenceIndex] = Math.floor(Math.random() * game.buttons.length);
 		}
-		
+
 		// Display sequence
 		let sequenceIndex = 0;
 		let playInterval = setInterval(() => {
-			sequenceIndex += 1;
-
-			if (sequenceIndex === sequence.length) {
+			if (sequenceIndex + 1 === sequence.length) {
 				playLightUp(sequence[sequenceIndex], true);
 				clearInterval(playInterval);
 			} else {
 				playLightUp(sequence[sequenceIndex], false);
 			}
+
+			sequenceIndex += 1;
 		}, 1000);
 	}
 
