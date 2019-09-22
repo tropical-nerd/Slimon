@@ -25,7 +25,6 @@
 	function newRound() {
 		game.round += 1;
 		playSequence();
-		// playerResponse();
 	}
 
 	function playSequence() {
@@ -37,49 +36,59 @@
 		for (let sequenceIndex = 0; sequenceIndex < game.round; sequenceIndex++) {
 			sequence[sequenceIndex] = Math.floor(Math.random() * game.buttons.length);
 		}
-		
+
 		// Display sequence
 		let sequenceIndex = 0;
 		let playInterval = setInterval(() => {
-			lightUp(sequence[sequenceIndex]);
-			sequenceIndex += 1;
-
-			if (sequenceIndex === sequence.length) {
+			if (sequenceIndex + 1 === sequence.length) {
+				playLightUp(sequence[sequenceIndex], true);
 				clearInterval(playInterval);
-				game.boardActive = true;
+			} else {
+				playLightUp(sequence[sequenceIndex], false);
 			}
+			sequenceIndex += 1;
 		}, 1000);
 	}
-
-	// function playerResponse() {
-	// 	game.boardActive = true;
-	// }
 
 	function buttonClick(buttonIndex) {
 		if (game.boardActive === false) {
 			return;
 		}
 
-		lightUp(buttonIndex);
+		clickLightUp(buttonIndex);
 
 		if (buttonIndex === sequence[0]) {
 			sequence.shift();
 			sequence = sequence;
 
-			if (sequence.length === 0) {
-				game.boardActive = false;
-				setTimeout(() => { newRound(); }, 500);	
-			}
 		} else {
 			gameOver();
 		}
 	}
 
-	function lightUp(buttonIndex) {
+	function playLightUp(buttonIndex, isLastOne = false) {
+		console.log(buttonIndex);
 		game.buttons[buttonIndex].lit = true;
 		
 		setTimeout(() => {
 			game.buttons[buttonIndex].lit = false;
+
+			if (isLastOne) {
+				game.boardActive = true;
+			}
+		}, 500);
+	}
+
+	function clickLightUp(buttonIndex) {
+		game.buttons[buttonIndex].lit = true;
+		
+		setTimeout(() => {
+			game.buttons[buttonIndex].lit = false;
+			
+			if (sequence.length === 0) {
+				game.boardActive = false;
+				setTimeout(() => { newRound(); }, 500);
+			}
 		}, 500);
 	}
 
