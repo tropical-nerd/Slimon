@@ -2,8 +2,9 @@
 
 	const game = {
 		on: false,
-		round: 0, // integer
+		round: 0,
 		boardActive: false,
+		
 		buttons: [ 
 			{ name: '1', lit: false },
 			{ name: '2', lit: false },
@@ -24,10 +25,12 @@
 	function newRound() {
 		game.round += 1;
 		playSequence();
-		playerResponse();
+		// playerResponse();
 	}
 
 	function playSequence() {
+		// game.boardActive = false;
+
 		// Create sequence
 		sequence = [];
 
@@ -43,13 +46,14 @@
 
 			if (sequenceIndex === sequence.length) {
 				clearInterval(playInterval);
+				game.boardActive = true;
 			}
 		}, 1000);
 	}
 
-	function playerResponse() {
-		game.boardActive = true;
-	}
+	// function playerResponse() {
+	// 	game.boardActive = true;
+	// }
 
 	function buttonClick(buttonIndex) {
 		if (game.boardActive === false) {
